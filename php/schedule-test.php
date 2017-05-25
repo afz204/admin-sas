@@ -33,7 +33,7 @@
           </thead>
           <?php
             $calon = new Karyawan();
-            $stmt = $calon->runQuery("SELECT tb_karyawan.no_ktp, tb_karyawan.no_NIK, tb_karyawan.nama_depan, tb_karyawan.nama_belakang, tb_info_test.kode_test, tb_info_test.date_test, tb_info_test.nilai, tb_info_test.kode_admin FROM tb_karyawan LEFT OUTER JOIN tb_info_test ON tb_info_test.no_ktp=tb_karyawan.no_ktp WHERE tb_karyawan.no_NIK =''");
+            $stmt = $calon->runQuery("SELECT tb_karyawan.no_ktp, tb_karyawan.no_NIK, tb_karyawan.nama_depan, tb_karyawan.nama_belakang, tb_info_test.kode_test, tb_info_test.date_test, tb_info_test.nilai, tb_info_test.kode_admin, tb_info_test.status FROM tb_karyawan LEFT OUTER JOIN tb_info_test ON tb_info_test.no_ktp=tb_karyawan.no_ktp WHERE tb_karyawan.no_NIK =''");
             $stmt->execute();
           ?>
           <tbody>
@@ -63,7 +63,7 @@
               <td class=" "><?php echo $row['kode_test']; ?></td>
               <td class=" "><?php echo $row['date_test']; ?></td>
               <td class=" "><?php echo $row['nilai']; ?></td>
-              <td class=" "><?php echo $row['kode_admin']; ?></td>
+              <td class=" "><?php echo $row['status']; ?></td>
 
               <td>
                 <a href="?p=add-jadwal-test&id=<?php echo $row['no_ktp']; ?>">
