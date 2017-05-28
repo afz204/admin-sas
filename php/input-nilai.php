@@ -2,6 +2,7 @@
 $id = $_GET['id'];
 $data = new Admin();
 
+
     if (isset($_POST['addTest']))
     {
         $kode = $_POST['txt_kode'];
@@ -56,6 +57,22 @@ $data = new Admin();
             } else {
 
             }
+        }
+    }elseif (isset($_POST['addNilai'])){
+        $ktp = $_POST['txt_ktp'];
+        $nil = $_POST['txt_nilai'];
+
+        $ql = "UPDATE tb_karyawan SET nilai = :nilai WHERE no_ktp = :ktp";
+        $ttm = $data->runQuery($ql);
+        $ttm->execute(array(
+                ':nilai' => $nil,
+                ":ktp"   => $ktp
+        ));
+        if ($ttm){
+            echo "<script>
+        alert('Input Data Success!');
+        window.location.href='?p=schedule-test';
+        </script>";
         }
     }
 
@@ -143,8 +160,9 @@ $data = new Admin();
                         <?php
                         }
                         $total = count($data);
-                        $hasil_test = $sum/$total;
-                        $total = $sum/$total;
+                        if($sum != "0" && $total != "0"){
+                        $hasil_test = @($sum/$total);
+                        $total = @($sum/$total);
                         if($total > 0 && $total < 2){
                             $grade = "D";
                         } elseif($total >= 2 && $total < 3 ){
@@ -162,6 +180,7 @@ $data = new Admin();
                         <td><?php echo $sum; ?></td>
                         <td>GRADE: <?php echo $grade; ?></td>
                     </tr>
+                    <?php } ?>
                     </tbody>
                 </table>
             </div>
@@ -231,8 +250,10 @@ $data = new Admin();
                         </tr>
                     <?php }
                     $total = count($data);
-                    $hasil_interview = $sum/$total;
-                    $total = $sum/$total;
+                    if($sum != "0" && $total != "0"){
+                    $hasil_interview = @($sum/$total);
+                    $total = @($sum/$total);
+                    if(empty($total)){$grade = "null";}
                     if($total > 0 && $total < 2){
                         $grade = "D";
                     } elseif($total = 2 && $total < 3 ){
@@ -250,6 +271,7 @@ $data = new Admin();
                         <td><?php echo $sum; ?></td>
                         <td>GRADE: <?php echo $grade; ?></td>
                     </tr>
+                    <?php  } ?>
                     </tbody>
                 </table>
             </div>
@@ -267,7 +289,7 @@ $data = new Admin();
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel" style="text-transform: uppercase;">simpan nilai</h4>
             </div>
-            <div class="modal-body">
+            <form class="modal-body">
 
                 <table class="table table-bordered">
                     <thead>
@@ -276,9 +298,12 @@ $data = new Admin();
                     </thead>
                     <tbody>
                     <tr>
-                        <td><?php echo $hasil_test; ?></td>
-                        <td><?php echo $hasil_interview; ?></td>
+                        <td><?php if(!empty($hasil_test)){echo $hasil_test;} ?></td>
+                        <td><?php if(!empty($hasil_interview)){echo $hasil_interview;} ?></td>
                     </tr>
+                    <?php
+                        if (!empty($hasil_test) && !empty($hasil_interview)){
+                    ?>
                     <tr>
                         <td colspan="2">Total Nilai: <?php $subtotal = ($hasil_test+$hasil_interview)/2; echo $subtotal; ?></td>
                     </tr>
@@ -298,9 +323,13 @@ $data = new Admin();
                     <tr>
                         <td colspan="2">GRADE TOTAL: <?php echo $grade_total; ?></td>
                     </tr>
+                    <?php }?>
                     </tbody>
                 </table>
-
+                <button type="button" class="btn btn-success btn-xs lulus" data-id="<?php echo $id; ?>" data-st="1" > <i class="fa fa-check">
+                    </i> Lulus</button>
+                <button type="button" class="btn btn-danger btn-xs gagal" data-id="<?php echo $id; ?>" data-st="0"> <i class="fa fa-close">
+                    </i> Tidak Lulus</button>
             </div>
 
         </div>

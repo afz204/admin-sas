@@ -129,6 +129,47 @@
           });
 
      });
+    $(document).on('click', '.lulus', function(){
+        var id = $(this).data('id');
+        var st = $(this).data('st');
+
+        $.ajax({
+
+            url: 'php/ajx/add-nilai.php',
+            type: 'POST',
+            dataType: 'text',
+            data: {
+                id: id,
+                st: st
+            },
+            success: function(data){
+                alert('' +data+ '')
+                location.href='?p=soal-psikolog';
+            }
+        });
+
+    });
+    $(document).on('click', '.gagal', function(){
+        var id = $(this).data('id');
+        var st = $(this).data('st');
+
+        $.ajax({
+
+            url: 'php/ajx/add-nilai.php',
+            type: 'POST',
+            dataType: 'text',
+            data: {
+                id: id,
+                st: st
+
+            },
+            success: function(data){
+                alert('' +data+ '')
+                location.href='?p=soal-psikolog';
+            }
+        });
+
+    });
      $(document).on('click', '.addKaryawan', function(){
         var nik = $(this).data('nik');
         var kode = $(this).data('kode');
