@@ -77,6 +77,14 @@ if ($stmt->rowCount() == 0) {
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Dokumen yang dibutuhkan</label>
+                        <div class="col-md-5 col-sm-5 col-xs-9">
+                            <input name="nama_karyawan" type="text" class="form-control"
+                                   value="<?php echo $col['nama_depan']; ?> <?php echo $col['nama_belakang']; ?>"
+                                   readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-3">Tanggal Test Psikolog</label>
                         <div class="col-md-5 col-sm-5 col-xs-9">
                             <div class="control-group">
