@@ -5,16 +5,7 @@
                     <div class="row">
                       <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                         <ul class="pagination pagination-split">
-                          <li><a href="#">A</a></li>
-                          <li><a href="#">B</a></li>
-                          <li><a href="#">C</a></li>
-                          <li><a href="#">D</a></li>
-                          <li><a href="#">E</a></li>
-                          <li>...</li>
-                          <li><a href="#">W</a></li>
-                          <li><a href="#">X</a></li>
-                          <li><a href="#">Y</a></li>
-                          <li><a href="#">Z</a></li>
+                          <li style="text-transform: uppercase;">list calon karyawan yang lolos</li>
                         </ul>
                       </div>
 
@@ -25,12 +16,12 @@
                               <?php
 
                               $list = new Karyawan();
-                              $stmt = $list->runQuery("SELECT tb_karyawan.no_ktp, tb_karyawan.nama_depan, tb_karyawan.nama_belakang, tb_karyawan.email, tb_karyawan.nomor_hp, tb_karyawan.alamat, tb_karyawan.kelurahan, tb_karyawan.kecamatan, tb_karyawan.kota, tb_karyawan.foto, tb_info_test.kode_test, tb_info_interview.kd_interview, tb_hasil_test.kd_test, tb_hasil_interview.kd_interview FROM tb_karyawan
-RIGHT JOIN tb_info_test ON tb_info_test.no_ktp = tb_karyawan.no_ktp
-RIGHT JOIN tb_info_interview ON tb_info_interview.no_ktp = tb_karyawan.no_ktp
-RIGHT JOIN tb_hasil_test ON tb_hasil_test.kd_test = tb_info_test.kode_test
-RIGHT JOIN tb_hasil_interview ON tb_hasil_interview.kd_interview = tb_info_interview.kd_interview");
+                              $stmt = $list->runQuery("SELECT * FROM tb_karyawan WHERE nilai !=''");
                               $stmt->execute();
+
+                              if($stmt->rowCount() == 0){
+                                  echo '<button class = "btn btn-primary" style = "text-transform: uppercase;">belum ada data calon karyawan yang lulus</button>' ;
+                              }
 
                               while ($row = $stmt->fetch(PDO::FETCH_LAZY)) {
                               # code...
