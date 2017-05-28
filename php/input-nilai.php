@@ -143,12 +143,13 @@ $data = new Admin();
                         <?php
                         }
                         $total = count($data);
+                        $hasil_test = $sum/$total;
                         $total = $sum/$total;
                         if($total > 0 && $total < 2){
                             $grade = "D";
-                        } elseif($total = 2 && $total < 3 ){
+                        } elseif($total >= 2 && $total < 3 ){
                             $grade = "C";
-                        } elseif($total = 3 && $total < 4){
+                        } elseif($total >= 3 && $total < 4){
                             $grade = "B";
                         } elseif($total = 4){
                             $grade = "A";
@@ -230,6 +231,7 @@ $data = new Admin();
                         </tr>
                     <?php }
                     $total = count($data);
+                    $hasil_interview = $sum/$total;
                     $total = $sum/$total;
                     if($total > 0 && $total < 2){
                         $grade = "D";
@@ -251,6 +253,56 @@ $data = new Admin();
                     </tbody>
                 </table>
             </div>
+        </div>
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target=".modal-psikolog">simpan nilai</button>
+    </div>
+</div>
+
+
+<div class="modal fade modal-psikolog" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel" style="text-transform: uppercase;">simpan nilai</h4>
+            </div>
+            <div class="modal-body">
+
+                <table class="table table-bordered">
+                    <thead>
+                    <th>Total Nilai Psikotes</th>
+                    <th>Total Nilai Interviews</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><?php echo $hasil_test; ?></td>
+                        <td><?php echo $hasil_interview; ?></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Total Nilai: <?php $subtotal = ($hasil_test+$hasil_interview)/2; echo $subtotal; ?></td>
+                    </tr>
+                    <?php
+                        if($subtotal > 0 && $subtotal < 2){
+                            $grade_total = "D";
+                        }elseif($subtotal >= 2 && $subtotal < 3){
+                            $grade_total = "C";
+                        }elseif($subtotal >= 3 && $subtotal < 4) {
+                            $grade_total = "B";
+                        }elseif($subtotal >= 4 && $subtotal <5 ) {
+                            $grade_total = "A";
+                        }else{
+                            $grade_total = "null";
+                        }
+                    ?>
+                    <tr>
+                        <td colspan="2">GRADE TOTAL: <?php echo $grade_total; ?></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
         </div>
     </div>
 </div>

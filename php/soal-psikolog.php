@@ -30,14 +30,22 @@
                     </thead>
                     <?php
                     $calon = new Karyawan();
-                    $stmt = $calon->runQuery("SELECT tb_karyawan.no_ktp, tb_karyawan.nama_depan, tb_karyawan.nama_belakang, tb_karyawan.nilai, tb_info_test.kode_test,
-tb_info_interview.kd_interview FROM tb_karyawan
+                    $stmt = $calon->runQuery("SELECT tb_karyawan.no_ktp, tb_karyawan.nama_depan, tb_karyawan.nama_belakang, tb_karyawan.nilai, tb_info_test.kode_test, tb_info_test.status,
+tb_info_interview.kd_interview, tb_info_interview.status FROM tb_karyawan
 RIGHT JOIN tb_info_test ON tb_info_test.no_ktp = tb_karyawan.no_ktp
-RIGHT JOIN tb_info_interview ON tb_info_interview.no_ktp = tb_karyawan.no_ktp");
+RIGHT JOIN tb_info_interview ON tb_info_interview.no_ktp = tb_karyawan.no_ktp
+WHERE tb_info_test.status !='' OR tb_info_interview.status !=''");
                     $stmt->execute();
                     ?>
                     <tbody>
                     <?php
+                    if($stmt->rowCount() == 0 ){
+                        ?>
+                        <tr>
+                            <td colspan="6">Data belum ada!</td>
+                        </tr>
+                        <?php
+                    }
                     while ($row = $stmt->fetch(PDO::FETCH_LAZY)) {
                         # code...
                         $tgl = $row['date_test'];
@@ -55,7 +63,7 @@ RIGHT JOIN tb_info_interview ON tb_info_interview.no_ktp = tb_karyawan.no_ktp");
                                     <button class="btn btn-sm btn-primary">- INPUT -</button>
                                 </a>
                             </td>
-                            </td>
+
                         </tr>
                     <?php } ?>
                     </tbody>
