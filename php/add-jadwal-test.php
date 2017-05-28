@@ -1,23 +1,23 @@
 <?php
 $id = $_GET['id'];
 $jadwal = new Admin();
-
 if (isset($_POST['addJadwal'])) {
     # code...
-
     $kodeTest = strip_tags($_POST['kode_test']);
     $ktp = strip_tags($_POST['no_ktp']);
     $kdAdmin = strip_tags($_POST['kode_admin']);
     $tanggalTest = strip_tags($_POST['tanggal']);
-
+    $cv = strip_tags($_POST['txt_cv']);
+    
     $input = new Karyawan();
-    $sql = "INSERT INTO tb_info_test (kode_test, no_ktp, date_test, kode_admin) VALUES (:kode, :ktp, :tgl, :admin)";
+    $sql = "INSERT INTO tb_info_test (kode_test, no_ktp, date_test, kode_admin, keterangan) VALUES (:kode, :ktp, :tgl, :admin, :ket)";
     $stmt = $input->runQuery($sql);
     $stmt->execute(array(
         ':kode'   => $kodeTest,
         ':ktp'  => $ktp,
         ':tgl'        => $tanggalTest,
-        ':admin'      => $kdAdmin
+        ':admin'      => $kdAdmin,
+        ':ket'     => $cv
     ));
     if (!$stmt) {
         # code...
@@ -32,16 +32,13 @@ if (isset($_POST['addJadwal'])) {
  $stmt = $jadwal->runQuery("SELECT * FROM tb_info_test WHERE no_ktp = :id");
 $stmt->bindParam(':id', $id);
 $stmt->execute();
-
 if ($stmt->rowCount() == 0) {
-
     $sql = "SELECT * FROM tb_karyawan WHERE no_ktp = :id";
     $dt = $jadwal->runQuery($sql);
     $dt->execute(array(
             ':id'   => $id
     ));
     while($col = $dt->fetch(PDO::FETCH_LAZY)) {
-
         $id = "kode_test";
         $kode = "TESPSKT";
         $tbName = "tb_info_test";
@@ -77,6 +74,28 @@ if ($stmt->rowCount() == 0) {
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3">Dokumen yang dibutuhkan</label>
+                        <div class="col-md-5 col-sm-5 col-xs-9">
+                            <div class="col-md-5 col-sm-5 col-xs-9">
+                                <div class="checkbox">
+                                    <label class="">
+                                        <div class="icheckbox_flat-green" style="position: relative;">
+                                        <input type="checkbox" name = "txt_cv" value = "cv" class="flat" style="position: absolute; opacity: 0;">
+                                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
+                                        </ins></div> CV Lengkap
+                                    </label>
+                                    <label class="">
+                                        <div class="icheckbox_flat-green" style="position: relative;">
+                                        <input type="checkbox" name = "txt_kesehatan" value = "surat kesehatan" class="flat" style="position: absolute; opacity: 0;">
+                                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
+                                        </ins></div> Surat Kesehatan
+                                    </label>
+                                    
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-3">Tanggal Test Psikolog</label>
                         <div class="col-md-5 col-sm-5 col-xs-9">
                             <div class="control-group">
@@ -106,20 +125,12 @@ if ($stmt->rowCount() == 0) {
         <?php
     }
   } else {
-
-
     $stmt = $jadwal->runQuery("SELECT tb_karyawan.nama_depan, tb_karyawan.nama_belakang, tb_info_test.kode_test, tb_info_test.id, tb_info_test.date_test, tb_info_test.kode_admin FROM tb_info_test
 LEFT JOIN tb_karyawan ON tb_karyawan.no_ktp=tb_info_test.no_ktp
 WHERE tb_info_test.no_ktp = :id");
 $stmt->bindParam(':id', $id);
 $stmt->execute();
-
-
-
 $row = $stmt->fetch(PDO::FETCH_LAZY);
-
-
-
 if (isset($_POST['addData'])) {
   # code...
     $kode_test = strip_tags($_POST['kode_test']);
@@ -127,13 +138,14 @@ if (isset($_POST['addData'])) {
   $kdAdmin = strip_tags($_POST['kode_admin']);
   $tanggalTest = strip_tags($_POST['tanggal']);
   $status = "";
-
+  $cv = strip_tags($_POST['txt_cv']);
   $input = new Karyawan();
-  $stmt = $input->runQuery("UPDATE tb_info_test SET date_test = :tanggal, kode_admin = :admin, status = :st WHERE id = :id");
+  $stmt = $input->runQuery("UPDATE tb_info_test SET date_test = :tanggal, kode_admin = :admin, status = :st, keterangan = :ket WHERE id = :id");
   $stmt->execute(array(
     ':tanggal'=> $tanggalTest,
     ':admin'  => $kdAdmin,
     ':st'       => $status,
+    ':ket'     => $cv,
     ':id'     => $kodeTest));
   if (!$stmt) {
     # code...
@@ -144,12 +156,7 @@ alert('Update Success!');
 window.location.href='?p=schedule-test';
 </script>";
   }
-
-
 }
-
-
-
 ?>
 
 <div class="x_panel">
@@ -174,6 +181,26 @@ window.location.href='?p=schedule-test';
               <label class="control-label col-md-3 col-sm-3 col-xs-3">Calon Karyawan</label>
               <div class="col-md-5 col-sm-5 col-xs-9">
                 <input name="nama_karyawan" type="text" class="form-control" value="<?php echo $row['nama_depan']; ?> <?php echo $row['nama_belakang']; ?>" readonly>
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-3">Dokumen yang dibutuhkan</label>
+              <div class="col-md-5 col-sm-5 col-xs-9">
+                <div class="checkbox">
+                    <label class="">
+                        <div class="icheckbox_flat-green" style="position: relative;">
+                        <input type="checkbox" name = "txt_cv" value = "cv" class="flat" style="position: absolute; opacity: 0;">
+                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
+                        </ins></div> CV Lengkap
+                    </label>
+                    <label class="">
+                        <div class="icheckbox_flat-green" style="position: relative;">
+                        <input type="checkbox" name = "txt_kesehatan" value = "surat kesehatan" class="flat" style="position: absolute; opacity: 0;">
+                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
+                        </ins></div> Surat Kesehatan
+                    </label>
+                     
+                    </div>
               </div>
           </div>
           <div class="form-group">
@@ -208,4 +235,3 @@ window.location.href='?p=schedule-test';
   </div>
 <?php
   } ?>
-
