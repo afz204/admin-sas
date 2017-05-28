@@ -49,6 +49,11 @@ WHERE tb_info_test.status !='' OR tb_info_interview.status !=''");
                     while ($row = $stmt->fetch(PDO::FETCH_LAZY)) {
                         # code...
                         $tgl = $row['date_test'];
+                        if($row['nilai'] == "0"){
+                            $status_karyawan = "<span class='label label-danger'>Tidak Lulus</span>";
+                        }elseif($row['nilai'] == "1"){
+                            $status_karyawan = "<span class='label label-success'>Lulus</span>";
+                        }
 
                         ?>
                         <tr class="even pointer">
@@ -57,7 +62,7 @@ WHERE tb_info_test.status !='' OR tb_info_interview.status !=''");
                             <td class=" "><?php echo $row['nama_depan']; ?> <?php echo $row['nama_belakang']; ?></td>
                             <td class=" "><?php echo $row['kode_test']; ?></td>
                             <td class=" "><?php echo $row['kd_interview']; ?></td>
-                            <td class=" "><?php echo $row['nilai']; ?></td>
+                            <td class=" "><?php echo $status_karyawan; ?></td>
                             <td>
                                 <a href="?p=input-nilai&id=<?php echo $row['no_ktp']; ?>">
                                     <button class="btn btn-sm btn-primary">- INPUT -</button>
