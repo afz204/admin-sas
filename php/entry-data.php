@@ -49,11 +49,11 @@
                                     <?php
                                     $calon = new Karyawan();
                                     $stmt = $calon->runQuery("SELECT tb_temporary_perusahaan.no_pendaftaran, tb_temporary_perusahaan.kode_perusahaan, tb_temporary_perusahaan.nama_perusahaan, tb_temporary_perusahaan.cp, tb_temporary_perusahaan.phone, tb_temporary_perusahaan.email, tb_temporary_perusahaan.create_date, tb_temporary_perusahaan.status, tb_jenis_pekerjaan.nama_pekerjaan, tb_kategori_pekerjaan.nama_kategori 
-                                        FROM tb_temporary_perusahaan
-                                        LEFT JOIN tb_jenis_pekerjaan ON tb_jenis_pekerjaan.kd_pekerjaan=tb_temporary_perusahaan.kode_pekerjaan
-                                        LEFT JOIN tb_kategori_pekerjaan ON tb_kategori_pekerjaan.kode_kategori=tb_temporary_perusahaan.kebutuhan
-                                        WHERE tb_temporary_perusahaan.kode_perusahaan != '' AND tb_temporary_perusahaan.status = ''
-                                        ORDER BY tb_temporary_perusahaan.create_date DESC");
+FROM tb_temporary_perusahaan
+LEFT JOIN tb_jenis_pekerjaan ON tb_jenis_pekerjaan.kd_pekerjaan=tb_temporary_perusahaan.kode_pekerjaan
+LEFT JOIN tb_kategori_pekerjaan ON tb_kategori_pekerjaan.kode_kategori=tb_temporary_perusahaan.kebutuhan
+WHERE tb_temporary_perusahaan.kode_perusahaan != '' OR tb_temporary_perusahaan.status = ''
+ORDER BY tb_temporary_perusahaan.create_date DESC");
                                     $stmt->execute(array());
                                     ?>
                                         <tbody>
