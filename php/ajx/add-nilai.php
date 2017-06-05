@@ -20,4 +20,4 @@ if (!$stmt) {
     echo "Berhasil Simpan";
 }
 
-?>s
+?>

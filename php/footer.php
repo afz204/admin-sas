@@ -188,6 +188,22 @@
           });
 
      });
+    $(document).on('click', '.generateKode', function(){
+        var id = $(this).data('id');
+        $.ajax({
+
+            url: 'php/ajx/insertKode.php',
+            type: 'POST',
+            dataType: 'text',
+            data: {id : id},
+
+            success: function(data){
+                alert('' +data+ '')
+                location.reload();
+            }
+        });
+
+    });
 
     </script>
 
