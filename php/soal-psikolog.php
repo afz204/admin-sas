@@ -53,6 +53,8 @@ WHERE tb_info_test.status !='' OR tb_info_interview.status !=''");
                             $status_karyawan = "<span class='label label-danger'>Tidak Lulus</span>";
                         }elseif($row['nilai'] == "1"){
                             $status_karyawan = "<span class='label label-success'>Lulus</span>";
+                        }else{
+                            $status_karyawan = "<span class='label label-success'>not set</span>";
                         }
 
                         ?>
