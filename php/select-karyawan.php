@@ -2,10 +2,7 @@
 $id = $_GET['id'];
 
 $data  = new Admin();
-$sql = "SELECT tb_kerjasama_perusahan.nomor_kontrak, tb_kerjasama_perusahan.total_karyawan, tb_temporary_perusahaan.nama_perusahaan, tb_temporary_perusahaan.kode_perusahaan, tb_temporary_perusahaan.nama_perusahaan, tb_temporary_perusahaan.kebutuhan, tb_temporary_perusahaan.kode_pekerjaan, tb_jenis_pekerjaan.nama_pekerjaan FROM tb_kerjasama_perusahan
-LEFT JOIN tb_temporary_perusahaan ON tb_temporary_perusahaan.no_pendaftaran=tb_kerjasama_perusahan.kode_perusahaan
-LEFT JOIN tb_jenis_pekerjaan ON tb_jenis_pekerjaan.kd_pekerjaan=tb_temporary_perusahaan.kode_pekerjaan
-WHERE tb_kerjasama_perusahan.nomor_kontrak = :kode";
+$sql = "SELECT tb_kerjasama_perusahan.nomor_kontrak, tb_kerjasama_perusahan.total_karyawan, tb_temporary_perusahaan.nama_perusahaan, tb_temporary_perusahaan.kode_perusahaan, tb_temporary_perusahaan.nama_perusahaan, tb_temporary_perusahaan.kebutuhan, tb_temporary_perusahaan.kode_pekerjaan, tb_jenis_pekerjaan.nama_pekerjaan, tb_kategori_pekerjaan.nama_kategori FROM tb_kerjasama_perusahan LEFT JOIN tb_temporary_perusahaan ON tb_temporary_perusahaan.no_pendaftaran=tb_kerjasama_perusahan.kode_perusahaan LEFT JOIN tb_jenis_pekerjaan ON tb_jenis_pekerjaan.kd_pekerjaan=tb_temporary_perusahaan.kode_pekerjaan LEFT JOIN tb_kategori_pekerjaan ON tb_kategori_pekerjaan.kode_kategori=tb_temporary_perusahaan.kebutuhan WHERE tb_kerjasama_perusahan.nomor_kontrak = :kode";
 $stmt = $data->runQuery($sql);
 $stmt->execute(array(
 	':kode'	=> $id));
@@ -37,7 +34,6 @@ while ($row = $stmt->fetch(PDO::FETCH_LAZY)) {
 
 	if (!empty($row['kode_pekerjaan'])) {
         # code...
-
         //cek untuk available calon karyawan
 
         $kodePekerjaan = $row['kode_pekerjaan'];
@@ -146,17 +142,15 @@ LEFT JOIN tb_info_interview ON tb_info_interview.no_ktp = tb_karyawan.no_ktp WHE
 LEFT JOIN tb_apply_pekerjaan ON tb_apply_pekerjaan.no_ktp=tb_karyawan.no_ktp WHERE tb_karyawan.status = ''";
         }
         ?>
+       <div class="col-md-6 col-lg-offset-3">
+           <div class="well">
+               <h4 class="text-danger" style="font-weight: bold;">INFORMATION</h4>
+               <p>Total Jumlah Karyawan yang dibutuhkan adalah <span class="label label-primary"><?php echo $row['total_karyawan'] ;?></span> belum terpenuhi!</p>
+               <hr>
+               <p>Dikarenakan Calon Karyawan untuk posisi <span class="label label-danger"><?php echo $row['nama_kategori']; ?></span> belum tersedia!</p>
+           </div>
+       </div>
 
-        <!-- <ul>
-	<li><?php echo $row['nomor_kontrak']; ?></li>
-	<li><?php echo $row['kode_perusahaan']; ?></li>
-	<li><?php echo $row['nama_perusahaan']; ?></li>
-	<li><?php echo $row['kebutuhan']; ?></li>
-	<li><?php echo $row['kode_pekerjaan']; ?></li>
-	<li><?php echo $query; ?></li>
-
-</ul>
- -->
 
 
         <?php
