@@ -74,7 +74,7 @@ LEFT JOIN tb_job ON tb_job.nomor_kontrak=tb_kerjasama_perusahan.nomor_kontrak";
           <button type="button" class="btn btn-success btn-xs">a</button>
         </td>
         <td>
-          <a href="#" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
+          <a href="?p=detail-list&id=<?php echo $row['nomor_kontrak'] ?>" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View </a>
           <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
           <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
         </td>
