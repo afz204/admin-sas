@@ -31,7 +31,6 @@ while ($row = $stmt->fetch(PDO::FETCH_LAZY)) {
         </div>
         <?php
     }else{
-
 	if (!empty($row['kode_pekerjaan'])) {
         # code...
         //cek untuk available calon karyawan
@@ -136,23 +135,29 @@ LEFT JOIN tb_info_interview ON tb_info_interview.no_ktp = tb_karyawan.no_ktp WHE
 
             <?php }
         }
-    else{
+    else {
 
-            $query = "SELECT tb_karyawan.no_ktp, tb_karyawan.no_NIK, tb_karyawan.nama_depan, tb_karyawan.nama_belakang,tb_karyawan.status, tb_apply_pekerjaan.kd_pekerjaan FROM tb_karyawan
-LEFT JOIN tb_apply_pekerjaan ON tb_apply_pekerjaan.no_ktp=tb_karyawan.no_ktp WHERE tb_karyawan.status = ''";
-        }
+        $query = "SELECT tb_karyawan.no_ktp, tb_karyawan.no_NIK, tb_karyawan.nama_depan, tb_karyawan.nama_belakang,tb_karyawan.status, tb_apply_pekerjaan.kd_pekerjaan FROM tb_karyawan
+LEFT JOIN tb_apply_pekerjaan ON tb_apply_pekerjaan.no_ktp=tb_karyawan.no_ktp WHERE tb_karyawan.status = '' AND tb_apply_pekerjaan.kd_pekerjaan = :data";
+        $stmt = $data->runQuery($query);
+        $stmt->execute(array(
+            ':data' => $kodePekerjaan));
+
         ?>
-       <div class="col-md-6 col-lg-offset-3">
-           <div class="well">
-               <h4 class="text-danger" style="font-weight: bold;">INFORMATION</h4>
-               <p>Total Jumlah Karyawan yang dibutuhkan adalah <span class="label label-primary"><?php echo $row['total_karyawan'] ;?></span> belum terpenuhi!</p>
-               <hr>
-               <p>Dikarenakan Calon Karyawan untuk posisi <span class="label label-danger"><?php echo $row['nama_kategori']; ?></span> belum tersedia!</p>
-           </div>
-       </div>
-
+        <div class="col-md-6 col-lg-offset-3">
+            <div class="well">
+                <h4 class="text-danger" style="font-weight: bold;">INFORMATION</h4>
+                <p>Total Jumlah Karyawan yang dibutuhkan adalah <span
+                            class="label label-primary"><?php echo $row['total_karyawan']; ?></span> belum terpenuhi!
+                </p>
+                <hr>
+                <p>Dikarenakan Calon Karyawan untuk posisi <span
+                            class="label label-danger"><?php echo $row['nama_kategori']; ?></span> belum tersedia!</p>
+            </div>
+        </div>
 
 
         <?php
+    }
     	}
 } ?>
